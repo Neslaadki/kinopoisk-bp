@@ -1,16 +1,15 @@
 package com.example.kinopoiskbmp.controllers;
 
 import com.example.kinopoiskbmp.data.RequestReview;
-import com.example.kinopoiskbmp.entities.Content;
-import com.example.kinopoiskbmp.entities.ContentType;
-import com.example.kinopoiskbmp.entities.Genre;
-import com.example.kinopoiskbmp.entities.ReviewKey;
+import com.example.kinopoiskbmp.entities.*;
+import com.example.kinopoiskbmp.exceptions.BadEmailValue;
 import com.example.kinopoiskbmp.services.ContentService;
 import com.example.kinopoiskbmp.services.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,11 +41,31 @@ public class WebController {
 
     @PostMapping(value = "/sendReview", consumes = "application/json", produces = "application/json")
     public HashMap<String, String> sendReview(@RequestBody RequestReview requestReview) {
-        ReviewKey reviewKey = reviewService.sendReview(requestReview);
-        return new HashMap<>() {{
-            put("contentId", reviewKey.getContent().getId().toString());
-            put("clientId", reviewKey.getClient().getId().toString());
-        }};
+        try {
+            ReviewKey reviewKey = reviewService.sendReview(requestReview);
+            return new HashMap<>() {{
+                put("contentId", reviewKey.getContent().getId().toString());
+                put("clientId", reviewKey.getClient().getId().toString());
+            }};
+        }catch (ConstraintViolationException e){
+            throw new BadEmailValue();
+        }
+
+    }
+
+    @GetMapping("/getReviewByContent/{contentId}")
+    public List<Review> getReviewByContent(@PathVariable(name = "contentId") Long contentId) {
+       return reviewService.getReviewByContent(contentId);
+    }
+
+    @GetMapping("/getReviewByClient/{clientId}")
+    public List<Review> getReviewByClient(@PathVariable(name = "clientId") Long clientId) {
+        return reviewService.getReviewByClient(clientId);
+    }
+
+    @GetMapping("/getReviewByClientAndContent/{contentId}/{clientId}")
+    public Review getReviewByClient(@PathVariable(name = "clientId") Long clientId,@PathVariable(name = "contentId") Long contentId) {
+        return reviewService.getReviewByClientAndContent(clientId, contentId);
     }
 
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +48,18 @@ public class ReviewService {
                         .setTime(new Timestamp(System.currentTimeMillis()))
         );
         return review.getReviewKey();
+    }
+
+    public List<Review> getReviewByContent(Long contentId){
+        return reviewRepository.getReviewByContent(contentId);
+    }
+
+    public List<Review> getReviewByClient(Long clientId){
+        return reviewRepository.getReviewByClient(clientId);
+    }
+
+    public Review getReviewByClientAndContent(Long clientId, Long contentId){
+        return reviewRepository.getReviewByClientAndContent(clientId, contentId);
     }
 
 }
