@@ -1,5 +1,6 @@
 package com.example.kinopoiskbmp.entities;
 
+import com.sun.xml.bind.v2.TODO;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -19,7 +20,8 @@ public class Review  {
     private ReviewKey reviewKey;
     private String topic;
     private String text;
-    private Integer mark;
+    @Enumerated(EnumType.STRING)
+    private ScoreType scoreType;
     private Timestamp time;
 
 }

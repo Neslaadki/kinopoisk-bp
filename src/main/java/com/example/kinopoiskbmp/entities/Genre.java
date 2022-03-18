@@ -1,5 +1,8 @@
 package com.example.kinopoiskbmp.entities;
 
+import lombok.Getter;
+
+@Getter
 public enum Genre {
     ACTION("Экшн"),
     COMEDY("Комедия"),
@@ -13,5 +16,13 @@ public enum Genre {
 
     Genre(String translateName) {
 
+    }
+
+    public static Genre getByName(String name) {
+        try {
+            return Genre.valueOf(name.trim().toUpperCase());
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

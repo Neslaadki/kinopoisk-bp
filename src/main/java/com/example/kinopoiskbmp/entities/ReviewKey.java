@@ -1,21 +1,31 @@
 package com.example.kinopoiskbmp.entities;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
+@Getter
+@Setter
+@Accessors (chain = true)
 public class ReviewKey implements Serializable {
 
+    private static final long serialVersionUID = -7821055594688334072L;
     @ManyToOne
-    @MapsId
-    private User user;
+    @JoinColumn(name = "clientId")
+    private Client client;
     @ManyToOne
-    @MapsId
+    @JoinColumn(name = "contentId")
     private Content content;
+
+
 
 }
