@@ -4,19 +4,17 @@ import lombok.Getter;
 
 @Getter
 public enum Genre {
-    ACTION("Экшн"),
-    COMEDY("Комедия"),
-    DRAMA("Драма"),
-    FANTASY("Фантастика"),
-    HORROR("Хоррор"),
-    MYSTERY("Детектив"),
-    THRILLER("Триллер"),
-    ROMANCE("Роман"),
-    WESTERN("Вестерн");
+    ACTION,
+    COMEDY,
+    DRAMA,
+    FANTASY,
+    HORROR,
+    MYSTERY,
+    THRILLER,
+    ROMANCE,
+    WESTERN;
 
-    Genre(String translateName) {
-
-    }
+    Genre() {}
 
     public static Genre getByName(String name) {
         try {

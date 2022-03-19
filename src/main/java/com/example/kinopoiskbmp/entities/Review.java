@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
@@ -20,8 +21,10 @@ public class Review  {
     private ReviewKey reviewKey;
     private String topic;
     private String text;
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ScoreType scoreType;
+    @NotNull
     private Timestamp time;
 
 }

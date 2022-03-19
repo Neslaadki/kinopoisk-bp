@@ -3,6 +3,8 @@ package com.example.kinopoiskbmp.services;
 import com.example.kinopoiskbmp.entities.Content;
 import com.example.kinopoiskbmp.entities.ContentType;
 import com.example.kinopoiskbmp.entities.Genre;
+import com.example.kinopoiskbmp.exceptions.BadEmailValue;
+import com.example.kinopoiskbmp.exceptions.InvalidRequestData;
 import com.example.kinopoiskbmp.repositories.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +35,21 @@ public class ContentService {
     }
 
     public List<Content> getContentTypeByContentTypeOrGenre(String g, String t) {
-        Genre genre = Genre.getByName(g);
-        ContentType contentType = ContentType.getByName(t);
-        if (contentType == null && genre == null)
-            return contentRepository.findAll();
-        if (contentType == null)
-            return contentRepository.getContentByGenre(genre);
-        if (genre == null)
-            return contentRepository.getContentByContentType(contentType);
-        else
-            return contentRepository.getContentByContentTypeAndGenre(contentType, genre);
+        try{
+            Genre genre = Genre.getByName(g);
+            ContentType contentType = ContentType.getByName(t);
+            if (g.equals("") && t.equals(""))
+                return contentRepository.findAll();
+            if (t.equals(""))
+                return contentRepository.getContentByGenre(genre);
+            if (g.equals(""))
+                return contentRepository.getContentByContentType(contentType);
+            else
+                return contentRepository.getContentByContentTypeAndGenre(contentType, genre);
+        }catch (NullPointerException e){
+            throw new InvalidRequestData();
+        }
+
     }
 
 }

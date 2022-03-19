@@ -3,6 +3,7 @@ package com.example.kinopoiskbmp.controllers;
 import com.example.kinopoiskbmp.data.RequestReview;
 import com.example.kinopoiskbmp.entities.*;
 import com.example.kinopoiskbmp.exceptions.BadEmailValue;
+import com.example.kinopoiskbmp.exceptions.InvalidRequestData;
 import com.example.kinopoiskbmp.services.ContentService;
 import com.example.kinopoiskbmp.services.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,8 @@ public class WebController {
             }};
         }catch (ConstraintViolationException e){
             throw new BadEmailValue();
+        } catch (RuntimeException e){
+            throw new InvalidRequestData();
         }
 
     }

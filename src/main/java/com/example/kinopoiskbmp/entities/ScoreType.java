@@ -5,8 +5,7 @@ public enum ScoreType {
     NEUTRAL,
     POSITIVE;
 
-    ScoreType() {
-    }
+    ScoreType() {}
 
     public static ScoreType getByName(String name) {
         try {
