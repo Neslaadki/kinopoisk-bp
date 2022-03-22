@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/kinopoisk")
 @RequiredArgsConstructor
 public class WebController {
 
