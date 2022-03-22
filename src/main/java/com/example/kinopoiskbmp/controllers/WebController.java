@@ -25,22 +25,22 @@ public class WebController {
     private ReviewService reviewService;
 
 
-    @GetMapping(value = "/getContentTypes")
+    @GetMapping(value = "/type")
     public List<ContentType> getContentTypes() {
         return contentService.getContentTypes();
     }
 
-    @GetMapping("/getContentGenre")
+    @GetMapping("/genre")
     public List<Genre> getContentGenre() {
         return contentService.getContentGenres();
     }
 
-    @GetMapping("/getContent/{type}/{genre}")
+    @GetMapping("/type/{type}/genre/{genre}")
     public List<Content> getContent(@PathVariable(name = "type") String type, @PathVariable(name = "genre") String genre) {
         return contentService.getContentTypeByContentTypeOrGenre(genre, type);
     }
 
-    @PostMapping(value = "/sendReview", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/send", consumes = "application/json", produces = "application/json")
     public HashMap<String, String> sendReview(@RequestBody RequestReview requestReview) {
         try {
             ReviewKey reviewKey = reviewService.sendReview(requestReview);
@@ -56,17 +56,17 @@ public class WebController {
 
     }
 
-    @GetMapping("/getReviewByContent/{contentId}")
+    @GetMapping("/content/{contentId}")
     public List<Review> getReviewByContent(@PathVariable(name = "contentId") Long contentId) {
        return reviewService.getReviewByContent(contentId);
     }
 
-    @GetMapping("/getReviewByClient/{clientId}")
+    @GetMapping("/content/{clientId}")
     public List<Review> getReviewByClient(@PathVariable(name = "clientId") Long clientId) {
         return reviewService.getReviewByClient(clientId);
     }
 
-    @GetMapping("/getReviewByClientAndContent/{contentId}/{clientId}")
+    @GetMapping("/content/{contentId}/client/{clientId}")
     public Review getReviewByClient(@PathVariable(name = "clientId") Long clientId,@PathVariable(name = "contentId") Long contentId) {
         return reviewService.getReviewByClientAndContent(clientId, contentId);
     }
