@@ -1,6 +1,5 @@
-package com.example.kinopoiskbmp.entities;
+package com.example.kinopoiskbmp.model;
 
-import com.sun.xml.bind.v2.TODO;
 import lombok.*;
 import lombok.experimental.Accessors;
 

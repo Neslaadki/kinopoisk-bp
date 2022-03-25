@@ -1,7 +1,7 @@
 package com.example.kinopoiskbmp.repositories;
 
-import com.example.kinopoiskbmp.entities.Review;
-import com.example.kinopoiskbmp.entities.ReviewKey;
+import com.example.kinopoiskbmp.model.Review;
+import com.example.kinopoiskbmp.model.ReviewKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

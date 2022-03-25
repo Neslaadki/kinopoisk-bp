@@ -1,4 +1,4 @@
-package com.example.kinopoiskbmp.entities;
+package com.example.kinopoiskbmp.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;

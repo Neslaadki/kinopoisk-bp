@@ -1,4 +1,4 @@
-package com.example.kinopoiskbmp.entities;
+package com.example.kinopoiskbmp.model;
 
 public enum ScoreType {
     NEGATIVE,

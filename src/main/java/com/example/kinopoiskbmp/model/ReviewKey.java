@@ -1,4 +1,4 @@
-package com.example.kinopoiskbmp.entities;
+package com.example.kinopoiskbmp.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import java.io.Serializable;
 
 @Embeddable

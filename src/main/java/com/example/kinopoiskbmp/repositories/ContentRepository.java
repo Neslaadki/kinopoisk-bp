@@ -1,8 +1,8 @@
 package com.example.kinopoiskbmp.repositories;
 
-import com.example.kinopoiskbmp.entities.Content;
-import com.example.kinopoiskbmp.entities.ContentType;
-import com.example.kinopoiskbmp.entities.Genre;
+import com.example.kinopoiskbmp.model.Content;
+import com.example.kinopoiskbmp.model.ContentType;
+import com.example.kinopoiskbmp.model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

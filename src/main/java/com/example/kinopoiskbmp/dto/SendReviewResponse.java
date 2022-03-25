@@ -1,4 +1,4 @@
-package com.example.kinopoiskbmp.data;
+package com.example.kinopoiskbmp.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
