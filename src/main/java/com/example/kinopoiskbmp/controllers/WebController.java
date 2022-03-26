@@ -1,40 +1,50 @@
 package com.example.kinopoiskbmp.controllers;
 
-import com.example.kinopoiskbmp.dto.RequestReview;
-import com.example.kinopoiskbmp.dto.SendReviewResponse;
-import com.example.kinopoiskbmp.exceptions.BadEmailValue;
-import com.example.kinopoiskbmp.exceptions.InvalidRequestData;
-import com.example.kinopoiskbmp.model.*;
-import com.example.kinopoiskbmp.services.impl.ContentService;
-import com.example.kinopoiskbmp.services.impl.ReviewService;
+import com.example.kinopoiskbmp.dto.ContentTypesDTO;
+import com.example.kinopoiskbmp.dto.GenresDTO;
+import com.example.kinopoiskbmp.dto.ReviewIncomingDTO;
+import com.example.kinopoiskbmp.model.Content;
+import com.example.kinopoiskbmp.model.Genres;
+import com.example.kinopoiskbmp.model.Review;
+import com.example.kinopoiskbmp.services.ContentService;
+import com.example.kinopoiskbmp.services.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/content")
+@RequestMapping("/contents")
 @RequiredArgsConstructor
 public class WebController {
 
     //TODO
-    //какая-то валидация приимаемых данных
-    //разбить функцию отправки POST send на три разные (без параметров и с параметрами)
+    // - Какая-то валидация приимаемых данных
+    // - Разбить функцию отправки POST send на три разные (без параметров и с параметрами)
+    // - Возможно, отправлять в IncomingDTO не ФИ + email, а ID. Т.е. убрать возможность оставлять комментарии пользователям,
+    // которых не в БД
 
     private final ContentService contentService;
+
     private final ReviewService reviewService;
+
+    private static final Logger log =
+            LoggerFactory.getLogger(WebController.class);
 
 
     @GetMapping(value = "/types")
-    public ResponseEntity<List<ContentType>> getContentTypes() {
+    public ResponseEntity<List<ContentTypesDTO>> getContentTypes() {
         return new ResponseEntity<>(contentService.getContentTypes(), HttpStatus.OK);
     }
 
     @GetMapping("/genres")
-    public ResponseEntity<List<Genre>> getContentGenre() {
+    public ResponseEntity<List<GenresDTO>> getContentGenre() {
         return new ResponseEntity<>(contentService.getContentGenres(), HttpStatus.OK);
     }
 
@@ -43,35 +53,34 @@ public class WebController {
         return new ResponseEntity<>(contentService.getContentTypeByContentTypeOrGenre(genre, type), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/send", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<SendReviewResponse> sendReview(@RequestBody RequestReview requestReview) {
+    @PostMapping(value = "/review", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void postReview(@RequestBody ReviewIncomingDTO reviewIncomingDTO) {
+        log.info("Request to create review: {}", reviewIncomingDTO.getContentId());
         try {
-            ReviewKey reviewKey = reviewService.sendReview(requestReview);
-            return new ResponseEntity<>(
-                    new SendReviewResponse()
-                            .setContentId(reviewKey.getContent().getId())
-                            .setClientId(reviewKey.getClient().getId()), HttpStatus.OK);
+            reviewService.saveReview(reviewIncomingDTO);
         } catch (ConstraintViolationException e) {
-            throw new BadEmailValue("Invalid email format");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
-            throw new InvalidRequestData("Invalid data format");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
-    @GetMapping("/contents/{contentId}")
-    public List<Review> getReviewByContent(@PathVariable(name = "contentId") Long contentId) {
-        return reviewService.getReviewByContent(contentId);
+    @GetMapping("reviews/contents/{contentId}")
+    public ResponseEntity<?> getReviewByContent(@PathVariable(name = "contentId") Long contentId) {
+        log.info("Request to getReview by contentId: {}", contentId);
+        return new ResponseEntity<>(reviewService.getReviewByContent(contentId), HttpStatus.OK);
     }
 
-    @GetMapping("/contents/{clientId}")
-    public List<Review> getReviewByClient(@PathVariable(name = "clientId") Long clientId) {
-        return reviewService.getReviewByClient(clientId);
+    @GetMapping("reviews/clients/{clientId}")
+    public ResponseEntity<?> getReviewByClient(@PathVariable(name = "clientId") Long clientId) {
+        return new ResponseEntity<>(reviewService.getReviewByClient(clientId), HttpStatus.OK);
     }
 
-    @GetMapping("/contents/{contentId}/clients/{clientId}")
-    public Review getReviewByClient(@PathVariable(name = "clientId") Long clientId, @PathVariable(name = "contentId") Long contentId) {
-        return reviewService.getReviewByClientAndContent(clientId, contentId);
+    @GetMapping("/{contentId}/clients/{clientId}")
+    public ResponseEntity<?> getReviewByClient(@PathVariable(name = "clientId") Long clientId, @PathVariable(name = "contentId") Long contentId) {
+        return new ResponseEntity<>(reviewService.getReviewByClientAndContent(clientId, contentId), HttpStatus.OK);
     }
 
 

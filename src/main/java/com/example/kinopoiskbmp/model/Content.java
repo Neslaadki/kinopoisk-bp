@@ -24,9 +24,9 @@ public class Content {
     private String description;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private ContentType contentType;
+    private ContentTypes contentType;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Genre genre;
+    private Genres genre;
 
 }

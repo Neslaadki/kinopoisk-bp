@@ -1,31 +1,36 @@
 package com.example.kinopoiskbmp.services.impl;
 
-import com.example.kinopoiskbmp.dto.RequestReview;
+import com.example.kinopoiskbmp.dto.ReviewDTO;
+import com.example.kinopoiskbmp.dto.ReviewIncomingDTO;
+import com.example.kinopoiskbmp.mappers.ReviewMapper;
 import com.example.kinopoiskbmp.model.*;
 import com.example.kinopoiskbmp.repositories.ReviewRepository;
+import com.example.kinopoiskbmp.services.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewService implements com.example.kinopoiskbmp.services.ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
 
     private final ReviewRepository reviewRepository;
     private final ClientServiceImpl clientServiceImpl;
-    private final ContentService contentServiceImpl;
+    private final ContentServiceImpl contentServiceImpl;
+    private final ReviewMapper reviewMapper;
 
 
     //прочитать комментарии определенного человека к определенному контену
 
     @Override
-    public ReviewKey sendReview(RequestReview r) {
+    public void saveReview(ReviewIncomingDTO r) {
         Content content = contentServiceImpl.getContentById(r.getContentId());
         if (content == null)
-            return null;
+            throw new RuntimeException();
         Client client = clientServiceImpl.addClient(
                 new Client()
                         .setFirstName(r.getFirstName())
@@ -41,25 +46,26 @@ public class ReviewService implements com.example.kinopoiskbmp.services.ReviewSe
                         )
                         .setText(r.getText())
                         .setTopic(r.getTopic())
-                        .setScoreType(ScoreType.getByName(r.getScore()) == null ? ScoreType.NEUTRAL : ScoreType.getByName(r.getScore()))
+                        .setScoreTypes(ScoreTypes.getByName(r.getScore()) == null ? ScoreTypes.NEUTRAL : ScoreTypes.getByName(r.getScore()))
                         .setTime(new Timestamp(System.currentTimeMillis()))
         );
-        return review.getReviewKey();
     }
 
     @Override
-    public List<Review> getReviewByContent(Long contentId){
-        return reviewRepository.getReviewByContent(contentId);
+    public List<ReviewDTO> getReviewByContent(Long contentId) {
+        return reviewRepository.getReviewByContent(contentId)
+                .stream().map(reviewMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<Review> getReviewByClient(Long clientId){
-        return reviewRepository.getReviewByClient(clientId);
+    public List<ReviewDTO> getReviewByClient(Long clientId) {
+        return reviewRepository.getReviewByClient(clientId)
+                .stream().map(reviewMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Review getReviewByClientAndContent(Long clientId, Long contentId){
-        return reviewRepository.getReviewByClientAndContent(clientId, contentId);
+    public ReviewDTO getReviewByClientAndContent(Long clientId, Long contentId) {
+        return reviewMapper.toDTO(reviewRepository.getReviewByClientAndContent(clientId, contentId));
     }
 
 }

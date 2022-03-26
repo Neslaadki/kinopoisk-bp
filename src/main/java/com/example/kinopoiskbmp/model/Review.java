@@ -22,7 +22,7 @@ public class Review  {
     private String text;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private ScoreType scoreType;
+    private ScoreTypes scoreTypes;
     @NotNull
     private Timestamp time;
 

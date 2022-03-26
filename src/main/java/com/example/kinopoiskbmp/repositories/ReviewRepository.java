@@ -14,7 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, ReviewKey> {
     @Query("from Review r where r.reviewKey.content.id = :id" )
     List<Review> getReviewByContent(@Param(value = "id") long id);
 
-
     @Query("from Review r where r.reviewKey.client.id = :id" )
     List<Review> getReviewByClient(@Param(value = "id") long id);
 

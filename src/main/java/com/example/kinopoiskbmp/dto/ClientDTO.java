@@ -5,9 +5,10 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors (chain = true)
-public class SendReviewResponse {
+public class ClientDTO {
 
-    private Long contentId;
-    private Long clientId;
+    private String firstName;
+    private String lastName;
+    private String email;
 
 }

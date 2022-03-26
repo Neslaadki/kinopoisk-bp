@@ -1,18 +1,18 @@
 package com.example.kinopoiskbmp.services;
 
-import com.example.kinopoiskbmp.dto.RequestReview;
+import com.example.kinopoiskbmp.dto.ReviewDTO;
+import com.example.kinopoiskbmp.dto.ReviewIncomingDTO;
 import com.example.kinopoiskbmp.model.Review;
-import com.example.kinopoiskbmp.model.ReviewKey;
 
 import java.util.List;
 
 public interface ReviewService {
 
-    ReviewKey sendReview(RequestReview r);
+    void saveReview(ReviewIncomingDTO r);
 
-    List<Review> getReviewByContent(Long contentId);
+    List<ReviewDTO> getReviewByContent(Long contentId);
 
-    List<Review> getReviewByClient(Long clientId);
+    List<ReviewDTO> getReviewByClient(Long clientId);
 
-    Review getReviewByClientAndContent(Long clientId, Long contentId);
+    ReviewDTO getReviewByClientAndContent(Long clientId, Long contentId);
 }

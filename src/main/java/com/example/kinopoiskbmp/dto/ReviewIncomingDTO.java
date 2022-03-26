@@ -1,18 +1,22 @@
 package com.example.kinopoiskbmp.dto;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors (chain = true)
-public class RequestReview {
+public class ReviewIncomingDTO {
 
+    private Long contentId;
+    /*
+    client's fields
+     */
     private String firstName;
     private String lastName;
     private String email;
+    /*
+    review's fields
+     */
     private String topic;
     private String text;
     private String score;
-    private Long contentId;
 
 }
