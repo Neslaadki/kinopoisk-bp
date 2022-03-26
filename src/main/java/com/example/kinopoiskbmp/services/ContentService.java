@@ -1,9 +1,9 @@
 package com.example.kinopoiskbmp.services;
 
+import com.example.kinopoiskbmp.dto.ContentDTO;
 import com.example.kinopoiskbmp.dto.ContentTypesDTO;
 import com.example.kinopoiskbmp.dto.GenresDTO;
 import com.example.kinopoiskbmp.model.Content;
-import com.example.kinopoiskbmp.model.Genres;
 
 import java.util.List;
 
@@ -13,8 +13,14 @@ public interface ContentService {
 
     List<ContentTypesDTO> getContentTypes();
 
-    List<GenresDTO> getContentGenres();
+    List<GenresDTO> getGenres();
 
-    List<Content> getContentTypeByContentTypeOrGenre(String g, String t);
+    List<ContentDTO> getContentsByTypeNameAndGenreName(String genreName, String typeName);
+
+    List<ContentDTO> getContentsByContendType(String TypeName);
+
+    List<ContentDTO> getContentsByGenre(String genreName);
+
+    List<ContentDTO> getContents();
 
 }
