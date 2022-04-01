@@ -15,11 +15,11 @@ public interface ContentService {
 
     List<GenresDTO> getGenres();
 
-    List<ContentDTO> getContentsByTypeNameAndGenreName(String genreName, String typeName);
+    List<ContentDTO> getContentsByGenreIdAndTypeId(Integer genreId, Integer typeId);
 
-    List<ContentDTO> getContentsByContendType(String TypeName);
+    List<ContentDTO> getContentsByContendTypeId(Integer id);
 
-    List<ContentDTO> getContentsByGenre(String genreName);
+    List<ContentDTO> getContentsByGenreId(Integer id);
 
     List<ContentDTO> getContents();
 

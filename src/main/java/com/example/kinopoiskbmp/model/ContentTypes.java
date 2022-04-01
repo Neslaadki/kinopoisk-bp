@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ContentTypes {
-    FILM(1, "film"), SERIAL(2, "serial");
+    FILM(1, "Film"), SERIAL(2, "Serial");
 
     private final int id;
     private final String name;
@@ -16,6 +16,9 @@ public enum ContentTypes {
 
     public static ContentTypes getByName(String name) {
         try {
+            for (ContentTypes value : ContentTypes.values()) {
+                System.out.println(value.toString());
+            }
             return ContentTypes.valueOf(name.trim().toUpperCase());
         } catch (Exception e) {
             return null;

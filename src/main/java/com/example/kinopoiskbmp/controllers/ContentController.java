@@ -46,20 +46,21 @@ public class ContentController {
         return new ResponseEntity<>(contentService.getContents(), HttpStatus.OK);
     }
 
-    @GetMapping("/genre/{name}")
-    public ResponseEntity<List<ContentDTO>> getContentsByGenre(@PathVariable(name = "name") String genreName) {
-        return new ResponseEntity<>(contentService.getContentsByGenre(genreName), HttpStatus.OK);
+    @GetMapping("/genre/{id}")
+    public ResponseEntity<List<ContentDTO>> getContentsByGenre(@PathVariable(name = "id") Integer id) {
+        return new ResponseEntity<>(contentService.getContentsByGenreId(id), HttpStatus.OK);
     }
 
-    @GetMapping("/types/{name}")
-    public ResponseEntity<List<ContentDTO>> getContentsByType(@PathVariable(name = "name") String typeName) {
-        return new ResponseEntity<>(contentService.getContentsByContendType(typeName), HttpStatus.OK);
+    @GetMapping("/types/{id}")
+    public ResponseEntity<List<ContentDTO>> getContentsByType(@PathVariable(name = "id") Integer id) {
+        return new ResponseEntity<>(contentService.getContentsByContendTypeId(id), HttpStatus.OK);
     }
 
-    @GetMapping("/genres/{genreName}/types/{typeName}")
-    public ResponseEntity<List<ContentDTO>> getContent(@PathVariable(name = "genreName") String genreName, @PathVariable(name = "typeName") String typeName) {
-        return new ResponseEntity<>(contentService.getContentsByTypeNameAndGenreName(genreName, typeName), HttpStatus.OK);
+    @GetMapping("/genres/{genreId}/types/{typeId}")
+    public ResponseEntity<List<ContentDTO>> getContentByGenreAndContentType(@PathVariable(name = "genreId") Integer genreId, @PathVariable(name = "typeId") Integer typeId) {
+        return new ResponseEntity<>(contentService.getContentsByGenreIdAndTypeId(genreId, typeId), HttpStatus.OK);
     }
+
 
 
 }

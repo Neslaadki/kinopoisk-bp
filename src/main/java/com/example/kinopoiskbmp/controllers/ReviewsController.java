@@ -46,13 +46,5 @@ public class ReviewsController {
         return new ResponseEntity<>(reviewService.getReviewByClient(clientId), HttpStatus.OK);
     }
 
-    /*
-    TODO
-     - Дерьмово выглядит
-     */
 
-    @GetMapping("/{contentId}/clients/{clientId}")
-    public ResponseEntity<?> getReviewByContentAndClient(@PathVariable(name = "clientId") Long clientId, @PathVariable(name = "contentId") Long contentId) {
-        return new ResponseEntity<>(reviewService.getReviewByClientAndContent(clientId, contentId), HttpStatus.OK);
-    }
 }

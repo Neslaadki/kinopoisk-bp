@@ -24,8 +24,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
 
-    //прочитать комментарии определенного человека к определенному контену
-
     @Override
     public void saveReview(ReviewIncomingDTO r) {
         Content content = contentServiceImpl.getContentById(r.getContentId());
@@ -37,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
                         .setLastName(r.getLastName())
                         .setEmail(r.getEmail())
         );
-        Review review = reviewRepository.save(
+        reviewRepository.save(
                 new Review()
                         .setReviewKey(
                                 new ReviewKey()
@@ -63,9 +61,5 @@ public class ReviewServiceImpl implements ReviewService {
                 .stream().map(reviewMapper::toDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public ReviewDTO getReviewByClientAndContent(Long clientId, Long contentId) {
-        return reviewMapper.toDTO(reviewRepository.getReviewByClientAndContent(clientId, contentId));
-    }
 
 }

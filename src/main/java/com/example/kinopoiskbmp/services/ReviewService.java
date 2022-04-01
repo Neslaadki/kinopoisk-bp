@@ -2,7 +2,6 @@ package com.example.kinopoiskbmp.services;
 
 import com.example.kinopoiskbmp.dto.ReviewDTO;
 import com.example.kinopoiskbmp.dto.ReviewIncomingDTO;
-import com.example.kinopoiskbmp.model.Review;
 
 import java.util.List;
 
@@ -14,5 +13,4 @@ public interface ReviewService {
 
     List<ReviewDTO> getReviewByClient(Long clientId);
 
-    ReviewDTO getReviewByClientAndContent(Long clientId, Long contentId);
 }

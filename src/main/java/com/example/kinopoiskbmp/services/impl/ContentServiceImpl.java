@@ -15,8 +15,10 @@ import com.example.kinopoiskbmp.services.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +30,15 @@ public class ContentServiceImpl implements ContentService {
     private final ContentTypesMapper contentTypesMapper;
     private final GenresMapper genresMapper;
     private final ContentMapper contentMapper;
+
+    private Map<Integer, String> genresMap;
+    private Map<Integer, String> typesMap;
+
+    @PostConstruct
+    private void createMaps() {
+        genresMap = Arrays.stream(Genres.values()).collect(Collectors.toMap(Genres::getId, Genres::getName));
+        typesMap = Arrays.stream(ContentTypes.values()).collect(Collectors.toMap(ContentTypes::getId, ContentTypes::getName));
+    }
 
 
     @Override
@@ -54,9 +65,9 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public List<ContentDTO> getContentsByContendType(String typeName) {
+    public List<ContentDTO> getContentsByContendTypeId(Integer id) {
         try {
-            return contentRepository.getContentByContentType(ContentTypes.getByName(typeName))
+            return contentRepository.getContentByContentType(ContentTypes.getByName(typesMap.get(id)))
                     .stream().map(contentMapper::toDTO).collect(Collectors.toList());
         } catch (NullPointerException e) {
             throw new InvalidRequestData("Param has invalid value");
@@ -64,9 +75,9 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public List<ContentDTO> getContentsByGenre(String genreName) {
+    public List<ContentDTO> getContentsByGenreId(Integer id) {
         try {
-            return contentRepository.getContentByGenre(Genres.getByName(genreName))
+            return contentRepository.getContentByGenre(Genres.getGenreByName(genresMap.get(id)))
                     .stream().map(contentMapper::toDTO).collect(Collectors.toList());
         } catch (NullPointerException e) {
             throw new InvalidRequestData("Param has invalid value");
@@ -75,9 +86,10 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public List<ContentDTO> getContentsByTypeNameAndGenreName(String genreName, String typeName) {
+    public List<ContentDTO> getContentsByGenreIdAndTypeId(Integer genreId, Integer typeId) {
         try {
-            return contentRepository.getContentByContentTypeAndGenre(ContentTypes.getByName(typeName), Genres.getByName(genreName))
+            return contentRepository.getContentByGenreAndContentType(Genres.getGenreByName(genresMap.get(genreId)),
+                            ContentTypes.getByName(typesMap.get(typeId)))
                     .stream().map(contentMapper::toDTO).collect(Collectors.toList());
         } catch (NullPointerException e) {
             throw new InvalidRequestData("Params has invalid values");

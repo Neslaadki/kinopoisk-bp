@@ -12,5 +12,5 @@ import java.util.List;
 public interface ContentRepository extends JpaRepository<Content, Long> {
     List<Content> getContentByContentType(ContentTypes contentType);
     List<Content> getContentByGenre(Genres genre);
-    List<Content> getContentByContentTypeAndGenre(ContentTypes contentType, Genres genre);
+    List<Content> getContentByGenreAndContentType(Genres genre, ContentTypes contentTypes);
 }

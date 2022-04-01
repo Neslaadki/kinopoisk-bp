@@ -11,6 +11,5 @@ public interface ClientMapper {
 
     ClientMapper INSTANCE = Mappers.getMapper( ClientMapper.class );
 
-    @Mapping(source = "email", target = "email")
     ClientDTO toDTO(Client client);
 }

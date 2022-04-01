@@ -9,7 +9,7 @@ public class ContentDTO {
 
     private String name;
     private String description;
-    private ContentTypesDTO contentTypesDTO;
-    private Genres genres;
+    private String typeName;
+    private String genreName;
 
 }
