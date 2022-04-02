@@ -42,8 +42,8 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public Content getContentById(Long id) {
-        return contentRepository.getById(id);
+    public ContentDTO getContentById(Long id) {
+        return contentMapper.toDTO(contentRepository.getById(id));
     }
 
     @Override

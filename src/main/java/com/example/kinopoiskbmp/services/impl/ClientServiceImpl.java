@@ -20,8 +20,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client addClient(Client client){
-        if (!clientIsExist(client.getEmail()))
-            return clientRepository.save(client);
+        System.out.println(client.toString());
+        if (!clientIsExist(client.getEmail())){
+            Client client1 = clientRepository.save(client);
+            System.out.println(client1);
+            System.out.println("Гавно");
+            return client1;
+        }
         else
             return clientRepository.findByEmail(client.getEmail());
     }

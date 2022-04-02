@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ContentService {
 
-    Content getContentById(Long id);
+    ContentDTO getContentById(Long id);
 
     List<ContentTypesDTO> getContentTypes();
 
