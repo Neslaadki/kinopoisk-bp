@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.RollbackException;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 @RestController
@@ -26,13 +28,14 @@ public class ReviewsController {
 
     @PostMapping(value = "/review", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void postReview(@RequestBody ReviewIncomingDTO reviewIncomingDTO) {
-        log.info("Request to create review: {}", reviewIncomingDTO.getContentId());
+    public void postReview(@Valid @RequestBody ReviewIncomingDTO reviewIncomingDTO) {
+        log.info("Request to create review: {}", reviewIncomingDTO.getEmail());
         try {
             reviewService.saveReview(reviewIncomingDTO);
-        } catch (ConstraintViolationException | PropertyNotFoundException e) {
+        } catch (ConstraintViolationException | PropertyNotFoundException | RollbackException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
+            System.out.println(e.toString());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

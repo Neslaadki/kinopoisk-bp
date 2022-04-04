@@ -20,11 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContentController {
 
-    //TODO
-    // - Какая-то валидация приимаемых данных, которые приходят в запросе!!
-    // - BPMN
-    // - Спецификация REST
-    // - Добавить тестоых сценариев +
 
     private final ContentService contentService;
 

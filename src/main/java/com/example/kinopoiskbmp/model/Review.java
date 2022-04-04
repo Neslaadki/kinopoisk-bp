@@ -18,6 +18,7 @@ public class Review  {
 
     @EmbeddedId
     private ReviewKey reviewKey;
+    @NotNull
     private String topic;
     private String text;
     @NotNull
